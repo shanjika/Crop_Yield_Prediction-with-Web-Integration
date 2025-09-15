@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🌾 Crop Yield Prediction</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #f0f4f7, #dff9fb);
+            margin: 0;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #bdc3c7;
+            border-radius: 6px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #2ecc71;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0d2116;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+
+        .result {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .good {
+            background-color: #eafbea;
+            border-left: 6px solid #2ecc71;
+            color: #020202;
+        }
+
+        .bad {
+            background-color: #fdecea;
+            border-left: 6px solid #a50b0b;
+            color: #040404;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌾 Crop Yield Prediction</h1>
+
+    <form action="/predict" method="post">
+        <label for="year">Year:</label>
+        <input type="text" name="year" id="year" value="{{ form_data.get('year', '') }}" required>
+
+        <label for="rainfall">Rainfall (mm):</label>
+        <input type="text" name="average_rain_fall_mm_per_year" id="rainfall" value="{{ form_data.get('average_rain_fall_mm_per_year', '') }}" required>
+
+        <label for="pesticides">Pesticides (tonnes):</label>
+        <input type="text" name="pesticides_tonnes" id="pesticides" value="{{ form_data.get('pesticides_tonnes', '') }}" required>
+
+        <label for="temp">Average Temp (°C):</label>
+        <input type="text" name="avg_temp" id="temp" value="{{ form_data.get('avg_temp', '') }}" required>
+
+        <label for="area">Country:</label>
+        <input type="text" name="area" id="area" list="area-options" value="{{ form_data.get('area', '') }}" required>
+        <datalist id="area-options">
+            <option value="India">
+            <option value="Indonesia">
+            <option value="Brazil">
+            <option value="China">
+            <option value="United States">
+            <option value="Nigeria">
+            <option value="Bangladesh">
+            <option value="Pakistan">
+            <option value="Russia">
+            <option value="Mexico">
+        </datalist>
+
+        <label for="item">Crop:</label>
+        <input type="text" name="item" id="item" list="item-options" value="{{ form_data.get('item', '') }}" required>
+        <datalist id="item-options">
+            <option value="Wheat">
+            <option value="Rice">
+            <option value="Maize">
+            <option value="Barley">
+            <option value="Soybean">
+            <option value="Sugarcane">
+            <option value="Cotton">
+            <option value="Potato">
+            <option value="Tomato">
+            <option value="Onion">
+        </datalist>
+
+        <div style="display: flex; gap: 10px;">
+            <button type="submit">🔍 Predict Yield</button>
+            <button type="button" onclick="window.location.href='/'">🧹 Clear</button>
+        </div>
+    </form>
+
+    {% if prediction %}
+        <div class="result {% if is_good %}good{% else %}bad{% endif %}">
+            <strong>Predicted Yield: {{ prediction }}</strong><br>
+            <p>{{ message|safe }}</p>
+        </div>
+    {% elif message %}
+        <div class="result bad">
+            <p>{{ message|safe }}</p>
+        </div>
+    {% endif %}
+</body>
+</html>
