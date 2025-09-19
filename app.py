@@ -56,7 +56,7 @@ def predict():
             reasons.append("Temperature is too low")
         if rainfall < 500:
             reasons.append("Rainfall is too low")
-        elif rainfall > 2000:
+        elif rainfall > 2500:
             reasons.append("Rainfall is too high")
         if pesticides > 500:
             reasons.append("Excess pesticide usage")
@@ -102,3 +102,4 @@ def predict():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
